@@ -5,10 +5,12 @@ import { deleteBlog } from "../../services/blog";
 const BlogTable = ({ blogs, refreshBlogs }) => {
   const navigate = useNavigate();
 
+  // Navigate to the Edit Blog page
   const handleEdit = (id) => {
     navigate(`/admin/edit-blog/${id}`);
   };
 
+  // Deletes the blog from the database
   const handleDelete = async (id) => {
     if (confirm("Are you sure you want to delete this blog?")) {
       try {

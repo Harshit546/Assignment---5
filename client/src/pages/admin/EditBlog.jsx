@@ -15,6 +15,7 @@ const EditBlog = () => {
   const [categories, setCategories] = useState([]);
 
   useEffect(() => {
+    // Fetches the existing blog to prefill form
     const fetchBlog = async () => {
       try {
         console.log("Fetching blog with ID:", id);
@@ -26,6 +27,7 @@ const EditBlog = () => {
       }
     };
 
+    // Fetches all categories for dropdown selection
     const fetchCategories = async () => {
       try {
         const res = await fetch("http://localhost:5000/api/categories");
@@ -55,6 +57,7 @@ const EditBlog = () => {
     }
 
     try {
+      // Builds a payload and calls 'updateBlog()' from services
       const payload = {
         title: blog.title.trim(),
         description: blog.description.trim(),

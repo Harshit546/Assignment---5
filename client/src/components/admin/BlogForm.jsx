@@ -13,6 +13,7 @@ const BlogForm = () => {
   const [categories, setCategories] = useState([]);
   const navigate = useNavigate();
 
+  // Fetch all categories from the server and set in the categories array
   useEffect(() => {
     fetchCategories().then(setCategories);
   }, []);

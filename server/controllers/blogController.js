@@ -2,8 +2,10 @@ import Blog from '../models/Blog.js';
 import { slugify } from '../utils/slugify.js';
 import mongoose from 'mongoose';
 
+// Fetch all blogs from the database
 export const getAllBlogs = async (req, res) => {
   try {
+     // Fetch all blogs and populate the 'category' reference field with actual category data
     const blogs = await Blog.find().populate('category');
     res.json(blogs);
   } catch (err) {
@@ -11,9 +13,11 @@ export const getAllBlogs = async (req, res) => {
   }
 };
 
+// Fetch a single blog using its slug
 export const getBlogBySlug = async (req, res) => {
   const { slug } = req.params;
   try {
+    // Find the blog document where the slug matches
     const blog = await Blog.findOne({ slug }).populate('category');
     if (!blog) return res.status(404).json({ message: 'Blog not found' });
     res.json(blog);
@@ -22,9 +26,11 @@ export const getBlogBySlug = async (req, res) => {
   }
 };
 
+// Create a new blog
 export const createBlog = async (req, res) => {
   const { title, category, description, publishDate, imageThumbnail, imageFeatured } = req.body;
   try {
+    // Generate a URL-friendly slug from the title
     const slug = slugify(title);
     const blog = new Blog({ title, slug, category, description, publishDate, imageThumbnail, imageFeatured });
     await blog.save();
@@ -34,16 +40,19 @@ export const createBlog = async (req, res) => {
   }
 };
 
+// Fetch a single blog by its MongoDB ObjectId
 export const getBlogById = async (req, res) => {
   try {
     const { id } = req.params;
     console.log("Requested blog ID:", id);
 
+    // Validate if the provided ID is a valid MongoDB ObjectId
     if (!mongoose.Types.ObjectId.isValid(id)) {
       console.log("Invalid ObjectId format");
       return res.status(400).json({ error: 'Invalid blog ID format' });
     }
 
+    // Find blog by ID
     const blog = await Blog.findById(id);
     console.log("Blog found:", blog);
 
@@ -58,6 +67,7 @@ export const getBlogById = async (req, res) => {
   }
 };
 
+// Update an existing blog
 export const updateBlog = async (req, res) => {
   try {
     console.log('Incoming update payload:', req.body);
@@ -68,6 +78,7 @@ export const updateBlog = async (req, res) => {
       return res.status(404).json({ error: 'Blog not found' });
     }
 
+    // Merge the request body fields into the existing blog object
     Object.assign(blog, req.body);
     console.log('Merged blog before save:', blog);
 
@@ -79,6 +90,7 @@ export const updateBlog = async (req, res) => {
   }
 };
 
+// Delete a blog by ID
 export const deleteBlog = async (req, res) => {
   try {
     const { id } = req.params;
@@ -87,6 +99,7 @@ export const deleteBlog = async (req, res) => {
       return res.status(400).json({ error: 'Invalid blog ID format' });
     }
 
+    // Delete the blog document from the database
     const deleted = await Blog.findByIdAndDelete(id);
     if (!deleted) {
       return res.status(404).json({ error: 'Blog not found' });

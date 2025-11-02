@@ -1,5 +1,6 @@
 import Category from '../models/Category.js';
 
+// Fetch all categories
 export const getAllCategories = async (req, res) => {
   try {
     const categories = await Category.find();
@@ -9,6 +10,7 @@ export const getAllCategories = async (req, res) => {
   }
 };
 
+// Create a new category
 export const createCategory = async (req, res) => {
   try {
     const { name } = req.body;
@@ -23,6 +25,7 @@ export const createCategory = async (req, res) => {
   }
 };
 
+// Update category name by ID
 export const updateCategory = async (req, res) => {
   const { id } = req.params;
   const { name } = req.body;
@@ -34,6 +37,7 @@ export const updateCategory = async (req, res) => {
   }
 };
 
+// Delete category by ID
 export const deleteCategory = async (req, res) => {
   const { id } = req.params;
   try {

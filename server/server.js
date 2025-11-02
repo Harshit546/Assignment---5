@@ -8,13 +8,20 @@ import authRoutes from './routes/authRoutes.js';
 import categoryRoutes from './routes/categoryRoutes.js';
 import blogRoutes from './routes/blogRoutes.js';
 
+// Load environment variables from .env file
 dotenv.config();
 connectDB();
 
+// Initialize Express app
 const app = express();
+
+// Enable Cross-Origin Resource Sharing
 app.use(cors());
+
+// Parse incoming JSON requests
 app.use(express.json());
 
+// Route Handlers
 app.use('/api/admin', authRoutes);
 app.use('/api/categories', categoryRoutes);
 app.use('/api/blogs', blogRoutes);
